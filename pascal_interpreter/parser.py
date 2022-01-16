@@ -1,4 +1,4 @@
-from pascal_interpreter import Lexer, Token, Node, TokenType, Number, UnaryOperation, BinaryOperation
+from pascal_interpreter import Lexer, Token, Node, TokenType, Number, UnaryOp, BinaryOp
 
 
 class ParserException(Exception):
@@ -11,11 +11,6 @@ class Parser:
         self._current_token: Token = None
         self._lexer = Lexer()
 
-    def parse(self, text: str) -> Node:
-        self._lexer.init(text)
-        self._current_token = self._lexer.next()
-        return self._expr()
-
     def __call__(self, text: str) -> Node:
         return self.parse(text)
 
@@ -27,17 +22,17 @@ class Parser:
             return Number(token)
         elif token.type_ == TokenType.MINUS:
             self._check_token_type(TokenType.MINUS)
-            return UnaryOperation(token, self._factor())
+            return UnaryOp(token, self._factor())
         elif token.type_ == TokenType.PLUS:
             self._check_token_type(TokenType.PLUS)
-            return UnaryOperation(token, self._factor())
+            return UnaryOp(token, self._factor())
         elif token.type_ == TokenType.LPAREN:
             self._check_token_type(TokenType.LPAREN)
             result = self._expr()
             self._check_token_type(TokenType.RPAREN)
             return result
         else:
-            raise ParserException(f"Invalid factor - {token.type_}")
+            raise ParserException(f"Invalid factor {token.type_}")
 
     def _term(self) -> Node:
         result = self._factor()
@@ -51,7 +46,7 @@ class Parser:
                 self._check_token_type(TokenType.MUL)
             else:
                 self._check_token_type(TokenType.DIV)
-            result = BinaryOperation(result, token, self._factor())
+            result = BinaryOp(result, token, self._factor())
         return result
 
     def _expr(self) -> Node:
@@ -66,7 +61,7 @@ class Parser:
                 self._check_token_type(TokenType.PLUS)
             else:
                 self._check_token_type(TokenType.MINUS)
-            result = BinaryOperation(result, token, self._term())
+            result = BinaryOp(result, token, self._term())
         return result
 
     def _check_token_type(self, type_: TokenType):
@@ -74,3 +69,8 @@ class Parser:
             self._current_token = self._lexer.next()
         else:
             raise ParserException(f"Invalid expression - expected token type: {type_}")
+
+    def parse(self, text: str) -> Node:
+        self._lexer.init(text)
+        self._current_token = self._lexer.next()
+        return self._expr()

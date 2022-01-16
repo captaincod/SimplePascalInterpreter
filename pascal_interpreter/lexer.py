@@ -44,7 +44,7 @@ class Lexer:
                 char = self._current_char
                 self._forward()
                 return Token(TokenType.RPAREN, char)
-            raise LexerException(f"bad token '{self._current_char}'!")
+            raise LexerException(f"Bad token '{self._current_char}'")
         return Token(TokenType.EOS, None)
 
     def _forward(self):
@@ -65,11 +65,11 @@ class Lexer:
             if self._current_char == '.':
                 dots_amount += 1
             if dots_amount > 1:
-                raise LexerException("invalid number!")
+                raise LexerException("Invalid number")
             result.append(str(self._current_char))
             self._forward()
         if result[len(result) - 1] == '.':
-            raise LexerException("invalid number!")
+            raise LexerException("Invalid number")
         return "".join(result)
 
     def init(self, text: str):

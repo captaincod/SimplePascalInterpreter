@@ -1,4 +1,4 @@
-from pascal_interpreter import Node, Number, UnaryOperation, BinaryOperation, TokenType
+from pascal_interpreter import Node, Number, UnaryOp, BinaryOp, TokenType
 
 
 class InterpreterException(Exception):
@@ -12,17 +12,17 @@ class Interpreter:
     def _visit(self, node: Node) -> float:
         if isinstance(node, Number):
             return self._visit_number(node)
-        elif isinstance(node, UnaryOperation):
-            return self._visit_unop(node)
-        elif isinstance(node, BinaryOperation):
-            return self._visit_binop(node)
+        elif isinstance(node, UnaryOp):
+            return self._visit_unaryop(node)
+        elif isinstance(node, BinaryOp):
+            return self._visit_binaryop(node)
         else:
             raise InterpreterException("invalid node")
 
     def _visit_number(self, node: Number) -> float:
         return float(node.token.value)
 
-    def _visit_binop(self, node: BinaryOperation) -> float:
+    def _visit_binaryop(self, node: BinaryOp) -> float:
         op = node.operation
         if op.type_ == TokenType.PLUS:
             return self._visit(node.left) + self._visit(node.right)
@@ -34,7 +34,7 @@ class Interpreter:
             return self._visit(node.left) / self._visit(node.right)
         raise InterpreterException("invalid operator")
 
-    def _visit_unop(self, node: UnaryOperation) -> float:
+    def _visit_unaryop(self, node: UnaryOp) -> float:
         op = node.operation
         if op.type_ == TokenType.PLUS:
             return self._visit(node.left)

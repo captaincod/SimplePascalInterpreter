@@ -15,7 +15,7 @@ class Number(Node):
         return f"Number({self.token})"
 
 
-class BinaryOperation(Node):
+class BinaryOp(Node):
 
     def __init__(self, left: Node, operation: Token, right: Node) -> None:
         self.left = left
@@ -26,7 +26,7 @@ class BinaryOperation(Node):
         return f"BinaryOperation: {self.operation.value} (left: {self.left}, right: {self.right})"
 
 
-class UnaryOperation(Node):
+class UnaryOp(Node):
 
     def __init__(self, operation: Token, left: Node) -> None:
         self.operation = operation
