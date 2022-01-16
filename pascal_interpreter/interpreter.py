@@ -17,7 +17,7 @@ class Interpreter:
         elif isinstance(node, BinaryOp):
             return self._visit_binaryop(node)
         else:
-            raise InterpreterException("invalid node")
+            raise InterpreterException("Invalid node")
 
     def _visit_number(self, node: Number) -> float:
         return float(node.token.value)
@@ -32,7 +32,7 @@ class Interpreter:
             return self._visit(node.left) * self._visit(node.right)
         if op.type_ == TokenType.DIV:
             return self._visit(node.left) / self._visit(node.right)
-        raise InterpreterException("invalid operator")
+        raise InterpreterException("Invalid operator")
 
     def _visit_unaryop(self, node: UnaryOp) -> float:
         op = node.operation
@@ -40,6 +40,6 @@ class Interpreter:
             return self._visit(node.left)
         if op.type_ == TokenType.MINUS:
             return 0 - self._visit(node.left)
-        raise InterpreterException("invalid operator")
+        raise InterpreterException("Invalid operator")
 
 
