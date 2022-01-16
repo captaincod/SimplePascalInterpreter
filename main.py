@@ -1,6 +1,7 @@
-from interpreter import Interpreter, Parser
+from pascal_interpreter import Parser, Interpreter
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parser = Parser()
-    print(parser.parse("2 + 2"))
-
+    my_interpreter = Interpreter()
+    syntax_tree = parser('(1) + (1 - 1)')
+    print(my_interpreter(syntax_tree))
