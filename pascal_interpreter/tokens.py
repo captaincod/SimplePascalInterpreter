@@ -2,6 +2,12 @@ from enum import Enum, auto
 
 
 class TokenType(Enum):
+    BEGIN = auto()
+    END = auto()
+    DOT = auto()
+    SEMI = auto()
+    VARIABLE = auto()
+    ASSIGN = auto()
     FLOAT = auto()
     PLUS = auto()
     MINUS = auto()

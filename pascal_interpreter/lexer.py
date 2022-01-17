@@ -6,7 +6,6 @@ class LexerException(Exception):
 
 
 class Lexer:
-
     def __init__(self):
         self._pos: int = -1
         self._text: str = ''
@@ -17,9 +16,23 @@ class Lexer:
             if self._current_char == ' ':
                 self._skip()
                 continue
-
+            if self._current_char == '\n':
+                self._forward()
+                self._skip()
+                continue
             if self._current_char.isdigit():
                 return Token(TokenType.FLOAT, self._number())
+            if self._current_char.isalpha():
+                string = ''
+                while self._current_char.isalpha():
+                    string += self._current_char
+                    self._forward()
+                if string == 'BEGIN':
+                    return Token(TokenType.BEGIN, string)
+                elif string == 'END':
+                    return Token(TokenType.END, string)
+                else:
+                    return Token(TokenType.VARIABLE, string)
             if self._current_char == '+':
                 char = self._current_char
                 self._forward()
@@ -44,6 +57,25 @@ class Lexer:
                 char = self._current_char
                 self._forward()
                 return Token(TokenType.RPAREN, char)
+            if self._current_char == '.':
+                char = self._current_char
+                self._forward()
+                return Token(TokenType.DOT, char)
+            if self._current_char == ';':
+                char = self._current_char
+                self._forward()
+                return Token(TokenType.SEMI, char)
+            if self._current_char == ':':
+                char = ''
+                char += self._current_char
+                self._forward()
+                if self._current_char == '=':
+                    char += self._current_char
+                    self._forward()
+                    return Token(TokenType.ASSIGN, char)
+                else:
+                    raise LexerException(f"Bad token '{self._current_char}'")
+
             raise LexerException(f"Bad token '{self._current_char}'")
         return Token(TokenType.EOS, None)
 

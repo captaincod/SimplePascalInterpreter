@@ -1,4 +1,5 @@
-from pascal_interpreter import Node, Number, UnaryOp, BinaryOp, TokenType
+from pascal_interpreter import TokenType, \
+    Number, Node, UnaryOp, BinaryOp, Statements, AssignOp, Variable, Empty
 
 
 class InterpreterException(Exception):
@@ -6,16 +7,27 @@ class InterpreterException(Exception):
 
 
 class Interpreter:
+    def __init__(self):
+        self.data = {}
+
     def __call__(self, tree: Node) -> float:
         return self._visit(tree)
 
-    def _visit(self, node: Node) -> float:
+    def _visit(self, node: Node):
         if isinstance(node, Number):
             return self._visit_number(node)
         elif isinstance(node, UnaryOp):
             return self._visit_unaryop(node)
         elif isinstance(node, BinaryOp):
             return self._visit_binaryop(node)
+        elif isinstance(node, Statements):
+            return self._visit_statements(node)
+        elif isinstance(node, AssignOp):
+            return self._visit_assignop(node)
+        elif isinstance(node, Variable):
+            return self._visit_variable(node)
+        elif isinstance(node, Empty):
+            return self._visit_empty(node)
         else:
             raise InterpreterException("Invalid node")
 
@@ -41,5 +53,19 @@ class Interpreter:
         if op.type_ == TokenType.MINUS:
             return 0 - self._visit(node.left)
         raise InterpreterException("Invalid operator")
+
+    def _visit_statements(self, node: Statements):
+        for statement in node.values:
+            self._visit(statement)
+
+    def _visit_assignop(self, node: AssignOp):
+        pass
+
+    def _visit_variable(self, node: Variable):
+        value = node.value
+        return self.data[value]
+
+    def _visit_empty(self, node: Empty):
+        pass
 
 
