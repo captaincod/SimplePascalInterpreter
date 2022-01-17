@@ -2,6 +2,6 @@
 
 ***В разработке***  
 - Ошибки в реализации - при любом тесте текстовой программы (BEGIN ... END.) выдает None, хоть и видит все токены
-- !!! Ошибка обнаружилась - не прописан _visit_assignop() ```/pascal_interpreter/interpreter.py```
+- !!! Ошибка обнаружилась - не прописан _visit_assignop() в ```/pascal_interpreter/interpreter.py```
 
 
