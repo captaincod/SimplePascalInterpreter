@@ -17,7 +17,7 @@ class Number(Node):
 
 class BinaryOp(Node):
 
-    def __init__(self, left: Node, operation: Token, right: Node) -> None:
+    def __init__(self, left: Node, operation: Token, right: Node):
         self.left = left
         self.operation = operation
         self.right = right
@@ -28,7 +28,7 @@ class BinaryOp(Node):
 
 class UnaryOp(Node):
 
-    def __init__(self, operation: Token, left: Node) -> None:
+    def __init__(self, operation: Token, left: Node):
         self.operation = operation
         self.left = left
 
@@ -47,7 +47,7 @@ class Statements(Node):
 
 
 class AssignOp(Node):
-    def __init__(self, left: Node, operation: Token, right: Node) -> None:
+    def __init__(self, left: Node, operation: Token, right: Node):
         self.left = left
         self.operation = operation
         self.right = right

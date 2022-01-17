@@ -59,7 +59,7 @@ class Interpreter:
             self._visit(statement)
 
     def _visit_assignop(self, node: AssignOp):
-        pass
+        self.data[node.left] = self._visit(node.right)
 
     def _visit_variable(self, node: Variable):
         value = node.value
